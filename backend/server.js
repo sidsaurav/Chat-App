@@ -1,27 +1,27 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const chats = require("../backend/data/data");
-const connectDB = require("./config/db");
-const app = express();
-dotenv.config();
+const express = require('express')
+const dotenv = require('dotenv')
+const chats = require('../backend/data/data')
+const connectDB = require('./config/db')
+const app = express()
+const router = require('./routers/userRouters')
+const User = require('./models/userModel')
+const mongoose = require('mongoose')
 
-const PORT = process.env.PORT;
+dotenv.config()
+app.use(express.json())
 
-app.listen(PORT, console.log(`Server is running on port ${PORT}`));
-connectDB();
+const PORT = process.env.PORT
 
-app.get("/api/chats", (req, res) => {
-    // console.log(chats);
-    res.send(chats);
-});
+app.listen(PORT, console.log(`Server is running on port ${PORT}`))
 
-app.get("/api/chats/:id", (req, res) => {
-    const id = req.params.id;
-    let data = "";
-    chats.forEach((obj) => {
-        if (obj._id == id) {
-            data = obj.chatName;
+connectDB()
+app.use('/api/user', router)
+app.post('/reset', async (req, res) => {
+    User.deleteMany({}, (err) => {
+        if (err) {
+            res.json(err)
+        } else {
+            res.json('Deleted Successfully')
         }
-    });
-    res.send(data);
-});
+    })
+})
