@@ -10,6 +10,7 @@ import {
     Tooltip,
 } from '@chakra-ui/react'
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { ChatState } from '../../Context/ChatProvider'
 import ProfileModal from './ProfileModal'
 
@@ -22,7 +23,12 @@ const SideDrawer = () => {
     //user k andar user.data me sara data h
     let { user } = ChatState()
     user = user.data
+    const history = useHistory()
 
+    const logoutHandler = () => {
+        localStorage.removeItem('userInfo')
+        history.push('/')
+    }
     return (
         <>
             <Box
@@ -67,7 +73,7 @@ const SideDrawer = () => {
                             <ProfileModal user={user}>
                                 <MenuItem>My Profile</MenuItem>
                             </ProfileModal>
-                            <MenuItem>Logout</MenuItem>
+                            <MenuItem onClick={logoutHandler}>Logout</MenuItem>
                         </MenuList>
                     </Menu>
                 </div>
