@@ -12,6 +12,7 @@ import {
     MenuButton,
     MenuItem,
     MenuList,
+    Spinner,
     Text,
     toast,
     Tooltip,
@@ -35,7 +36,7 @@ const SideDrawer = () => {
     const [loadingChat, setLoadingChat] = useState()
 
     //user k andar user.data me sara data h
-    let { user } = ChatState()
+    let { user, setSelectedChat, chats, setChats } = ChatState()
     const history = useHistory()
     const toast = useToast()
 
@@ -86,7 +87,34 @@ const SideDrawer = () => {
         }
     }
 
-    const accessChat = (userId) => {}
+    const accessChat = async (userId) => {
+        try {
+            setLoadingChat(true)
+            const config = {
+                headers: {
+                    'Content-type': 'application/json',
+                    Authorization: `Bearer ${user.token}`,
+                },
+            }
+            const { data } = await axios.post(`/api/chat`, { userId }, config)
+
+            if (!chats.find((c) => c._id === data._id))
+                setChats([data, ...chats])
+
+            setSelectedChat(data)
+            setLoadingChat(false)
+            onClose()
+        } catch (error) {
+            toast({
+                title: 'Error fetching the chat',
+                description: error.message,
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+                position: 'bottom-left',
+            })
+        }
+    }
 
     return (
         <>
@@ -168,6 +196,7 @@ const SideDrawer = () => {
                                 ></UserListItem>
                             ))
                         )}
+                        {loadingChat && <Spinner ml='auto' d='flex' />}
                     </DrawerBody>
                 </DrawerContent>
             </Drawer>
