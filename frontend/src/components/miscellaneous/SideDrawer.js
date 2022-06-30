@@ -22,7 +22,6 @@ const SideDrawer = () => {
 
     //user k andar user.data me sara data h
     let { user } = ChatState()
-    user = user.data
     const history = useHistory()
 
     const logoutHandler = () => {
