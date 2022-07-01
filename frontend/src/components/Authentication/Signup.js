@@ -54,11 +54,9 @@ const Signup = () => {
                 .then((res) => res.json())
                 .then((data) => {
                     setPic(data.url.toString())
-                    console.log(data.url.toString())
                     setLoading(false)
                 })
                 .catch((err) => {
-                    console.log(err)
                     setLoading(false)
                 })
         } else {
@@ -75,13 +73,6 @@ const Signup = () => {
     }
 
     const submitHandler = async () => {
-        // const d = await axios.post("/api/user", {
-        //     name: Name,
-        //     email: Email,
-        //     password: Password,
-        // });
-        // // const d = await axios.get("/api/user");
-        // console.log(d);
         setLoading(true)
         if (!name || !email || !password || !confirmpassword) {
             toast({
@@ -108,15 +99,22 @@ const Signup = () => {
         }
 
         try {
-            const { data } = await axios.post('/api/user', {
-                name,
-                email,
-                password,
-                confirmpassword,
-                pic,
-            })
-            console.log(data)
-            setLoading(false)
+            const config = {
+                headers: {
+                    'Content-type': 'application/json',
+                },
+            }
+            const { data } = await axios.post(
+                '/api/user',
+                {
+                    name,
+                    email,
+                    password,
+                    confirmpassword,
+                    pic,
+                },
+                config
+            )
             toast({
                 title: 'Registration successful',
                 status: 'success',
@@ -125,10 +123,10 @@ const Signup = () => {
                 position: 'bottom',
             })
             localStorage.setItem('userInfo', JSON.stringify(data))
+            setLoading(false)
             history.push('/chats')
         } catch (err) {
             setLoading(false)
-            console.log(err)
         }
     }
 

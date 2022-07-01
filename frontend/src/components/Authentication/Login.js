@@ -11,8 +11,10 @@ import {
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { ChatState } from '../../Context/ChatProvider'
 
 const Login = () => {
+    const { setUser } = ChatState()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
 
@@ -56,15 +58,14 @@ const Login = () => {
                 position: 'bottom',
             })
             localStorage.setItem('userInfo', JSON.stringify(data))
-            console.log('Hi', data, localStorage.getItem('userInfo'))
+            setUser(data)
+            // console.log('Hi', data, localStorage.getItem('userInfo'))
             setLoading(false)
-            setTimeout(() => {
-                history.push('/chats')
-            }, 50)
+            history.push('/chats')
         } catch (error) {
             toast({
                 title: 'Error Occured!',
-                description: error.res.data.message,
+                description: error.response.data.message,
                 status: 'error',
                 duration: 5000,
                 isClosable: true,

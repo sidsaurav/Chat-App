@@ -1,13 +1,14 @@
 import { Box } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import ChatBox from '../components/ChatBox'
 import SideDrawer from '../components/miscellaneous/SideDrawer'
 import MyChats from '../components/MyChats'
 import { ChatState } from '../Context/ChatProvider'
 
 const ChatPage = () => {
-    let { user } = ChatState()
     const [fetchAgain, setFetchAgain] = useState(false)
+    const { user } = ChatState()
     console.log(user)
 
     return (

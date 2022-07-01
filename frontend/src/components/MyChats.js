@@ -7,12 +7,11 @@ import ChatLoading from './ChatLoading'
 import GroupChatModal from './miscellaneous/GroupChatModal'
 
 const MyChats = ({ fetchAgain }) => {
-    const [loggedUser, setLoggedUser] = useState()
+    const [loggedUser, setLoggedUser] = useState({})
     const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState()
     const toast = useToast()
 
     const fetchChats = async () => {
-        // console.log(user._id);
         try {
             const config = {
                 headers: {
@@ -22,7 +21,6 @@ const MyChats = ({ fetchAgain }) => {
 
             const { data } = await axios.get('/api/chat', config)
             setChats(data)
-            // console.log(data)
         } catch (error) {
             toast({
                 title: 'Error Occured!',

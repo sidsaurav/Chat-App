@@ -16,7 +16,7 @@ import {
     Spinner,
 } from '@chakra-ui/react'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { ChatState } from '../../Context/ChatProvider'
 import UserBadgeItem from '../UserAvatar/UserBadgeItem'
 import UserListItem from '../UserAvatar/UserListItem'
@@ -83,6 +83,9 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
                 },
                 config
             )
+
+            console.log(data._id)
+            // setSelectedChat("");
             setSelectedChat(data)
             setFetchAgain(!fetchAgain)
             setRenameLoading(false)
@@ -189,7 +192,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
 
             user1._id === user._id ? setSelectedChat() : setSelectedChat(data)
             setFetchAgain(!fetchAgain)
-            // fetchMessages()
+            fetchMessages()
             setLoading(false)
         } catch (error) {
             toast({
