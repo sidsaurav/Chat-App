@@ -19,12 +19,10 @@ import { useHistory } from 'react-router-dom'
 const Homepage = () => {
     const history = useHistory()
 
-    // useEffect(() => {
-    //     const user = JSON.parse(localStorage.getItem('userInfo'))
-    //     if (user) {
-    //         history.push('/chats')
-    //     }
-    // }, [history])
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('userInfo'))
+        if (user) history.push('/chats')
+    }, [history])
 
     return (
         <Container centerContent maxW='xl'>

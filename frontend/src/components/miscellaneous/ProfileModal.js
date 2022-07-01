@@ -1,5 +1,6 @@
 import {
     Button,
+    IconButton,
     Image,
     Modal,
     ModalBody,
@@ -22,7 +23,11 @@ const ProfileModal = ({ user, children }) => {
                 <span onClick={onOpen}> {children} </span>
             ) : (
                 // fa-light not working
-                <i class='fa-solid fa-eye'></i>
+                <IconButton
+                    d={{ base: 'flex' }}
+                    icon={<i class='fa-solid fa-eye'></i>}
+                    onClick={onOpen}
+                />
             )}
 
             <Modal size='lg' isOpen={isOpen} onClose={onClose} isCentered>

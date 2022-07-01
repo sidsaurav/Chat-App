@@ -35,7 +35,6 @@ const SideDrawer = () => {
     const [loading, setLoading] = useState(false)
     const [loadingChat, setLoadingChat] = useState()
 
-    //user k andar user.data me sara data h
     let { user, setSelectedChat, chats, setChats } = ChatState()
     const history = useHistory()
     const toast = useToast()

@@ -4,8 +4,9 @@ import React, { useEffect, useState } from 'react'
 import { getSender } from '../config/ChatLogics'
 import { ChatState } from '../Context/ChatProvider'
 import ChatLoading from './ChatLoading'
+import GroupChatModal from './miscellaneous/GroupChatModal'
 
-const MyChats = () => {
+const MyChats = ({ fetchAgain }) => {
     const [loggedUser, setLoggedUser] = useState()
     const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState()
     const toast = useToast()
@@ -21,7 +22,7 @@ const MyChats = () => {
 
             const { data } = await axios.get('/api/chat', config)
             setChats(data)
-            console.log(data)
+            // console.log(data)
         } catch (error) {
             toast({
                 title: 'Error Occured!',
@@ -37,7 +38,7 @@ const MyChats = () => {
     useEffect(() => {
         setLoggedUser(JSON.parse(localStorage.getItem('userInfo')))
         fetchChats()
-    }, [])
+    }, [fetchAgain])
 
     return (
         <>
@@ -62,15 +63,17 @@ const MyChats = () => {
                     alignItems='center'
                 >
                     My Chats
-                    <Button
-                        d='flex'
-                        fontSize={{ base: '17px', md: '10px', lg: '17px' }}
-                        rightIcon={
-                            <i class='fa fa-plus' aria-hidden='true'></i>
-                        }
-                    >
-                        New Group Chat
-                    </Button>
+                    <GroupChatModal>
+                        <Button
+                            d='flex'
+                            fontSize={{ base: '17px', md: '10px', lg: '17px' }}
+                            rightIcon={
+                                <i class='fa fa-plus' aria-hidden='true'></i>
+                            }
+                        >
+                            New Group Chat
+                        </Button>
+                    </GroupChatModal>
                 </Box>
                 <Box
                     d='flex'

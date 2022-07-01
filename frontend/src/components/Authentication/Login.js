@@ -25,7 +25,7 @@ const Login = () => {
         setLoading(true)
         if (!email || !password) {
             toast({
-                title: 'Please enter all fields.',
+                title: 'Please Fill all the Feilds',
                 status: 'warning',
                 duration: 5000,
                 isClosable: true,
@@ -36,22 +36,40 @@ const Login = () => {
         }
 
         try {
-            const { data } = await axios.post('/api/user/login', {
-                email,
-                password,
-            })
+            const config = {
+                headers: {
+                    'Content-type': 'application/json',
+                },
+            }
+
+            const { data } = await axios.post(
+                '/api/user/login',
+                { email, password },
+                config
+            )
+
             toast({
-                title: 'Logged in successfully',
+                title: 'Login Successful',
                 status: 'success',
                 duration: 5000,
                 isClosable: true,
                 position: 'bottom',
             })
-            history.push('/chats')
-            setLoading(false)
             localStorage.setItem('userInfo', JSON.stringify(data))
-        } catch (err) {
-            console.log(err)
+            console.log('Hi', data, localStorage.getItem('userInfo'))
+            setLoading(false)
+            setTimeout(() => {
+                history.push('/chats')
+            }, 50)
+        } catch (error) {
+            toast({
+                title: 'Error Occured!',
+                description: error.res.data.message,
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+                position: 'bottom',
+            })
             setLoading(false)
         }
     }
