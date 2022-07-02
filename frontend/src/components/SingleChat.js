@@ -46,7 +46,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             )
             setMessages(data)
             setLoading(false)
-            console.log(data)
 
             socket.emit('join chat', selectedChat._id)
         } catch (error) {
@@ -61,32 +60,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         }
     }
 
-    useEffect(() => {
-        socket = io(ENDPOINT)
-        socket.emit('setup', user)
-        socket.on('connected', () => setSocketConnected(true))
-    }, [])
-
-    useEffect(() => {
-        fetchMessages()
-        selectedChatCompare = selectedChat
-    }, [selectedChat])
-
-    useEffect(() => {
-        socket.on('message recieved', (newMessageRecieved) => {
-            if (
-                !selectedChatCompare ||
-                selectedChatCompare._id !== newMessageRecieved.chat._id
-            ) {
-                //give notif.
-            } else {
-                setMessages([...messages, newMessageRecieved])
-            }
-        })
-    })
-
     const sendMessage = async (e) => {
         if (e.key === 'Enter' && newMessage) {
+            socket.emit('stop typing', selectedChat._id)
             try {
                 const config = {
                     headers: {
@@ -121,10 +97,52 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             }
         }
     }
+
+    useEffect(() => {
+        socket = io(ENDPOINT)
+        socket.emit('setup', user)
+        socket.on('connected', () => setSocketConnected(true))
+        socket.on('typing', () => setIsTyping(true))
+        socket.on('stop typing', () => setIsTyping(false))
+    }, [])
+
+    useEffect(() => {
+        fetchMessages()
+        selectedChatCompare = selectedChat
+    }, [selectedChat])
+
+    useEffect(() => {
+        socket.on('message recieved', (newMessageRecieved) => {
+            if (
+                !selectedChatCompare ||
+                selectedChatCompare._id !== newMessageRecieved.chat._id
+            ) {
+                //give notif.
+            } else {
+                setMessages([...messages, newMessageRecieved])
+            }
+        })
+    })
+
     const typingHandler = (e) => {
         setNewMessage(e.target.value)
+        if (!socketConnected) return
+        if (!typing) {
+            setTyping(true)
+            socket.emit('typing', selectedChat._id)
+        }
 
-        // Typing Indicator Logic
+        let lastTypingTime = new Date().getTime()
+        let timerLength = 3000
+        setTimeout(() => {
+            let timeNow = new Date().getTime()
+            let timeDiff = timeNow - lastTypingTime
+
+            if (timeDiff >= timerLength && typing) {
+                socket.emit('stop typing', selectedChat._id)
+                setTyping(false)
+            }
+        }, timerLength)
     }
 
     return (
@@ -199,6 +217,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                             </div>
                         )}
                         <FormControl onKeyDown={sendMessage} isRequired mt={3}>
+                            {isTyping ? <div>Loading...</div> : <></>}
                             <Input
                                 variant='filled'
                                 bg='#E0E0E0'
