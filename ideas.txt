@@ -1,0 +1,3 @@
+256 encryption
+user online show
+confirm signup through email
