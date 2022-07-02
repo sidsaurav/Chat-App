@@ -19,7 +19,7 @@ const sendMessage = asyncHandler(async (req, res) => {
 
     try {
         //To populate first find the document and then populate it. donot populate directly.
-        var message = await Message.create(newMessage)
+        let message = await Message.create(newMessage)
 
         let fullMessage = await Message.findOne({ _id: message._id })
             .populate('sender', 'name pic')
