@@ -23,7 +23,13 @@ const ENDPOINT = 'http://localhost:5000'
 let socket, selectedChatCompare
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
-    const { user, selectedChat, setSelectedChat } = ChatState()
+    const {
+        user,
+        selectedChat,
+        setSelectedChat,
+        notification,
+        setNotification,
+    } = ChatState()
     const [messages, setMessages] = useState([])
     const [loading, setLoading] = useState(false)
     const [newMessage, setNewMessage] = useState('')
@@ -85,7 +91,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 setNewMessage('')
 
                 const { data } = await axios.post(
-                    'api/message',
+                    '/api/message',
                     {
                         content: newMessage,
                         chatId: selectedChat._id,
@@ -122,13 +128,18 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         selectedChatCompare = selectedChat
     }, [selectedChat])
 
+    console.log(notification)
+
     useEffect(() => {
         socket.on('message recieved', (newMessageRecieved) => {
             if (
                 !selectedChatCompare ||
                 selectedChatCompare._id !== newMessageRecieved.chat._id
             ) {
-                //give notif.
+                if (!notification.includes(newMessageRecieved)) {
+                    setNotification([newMessageRecieved, ...notification])
+                    setFetchAgain(!fetchAgain)
+                }
             } else {
                 setMessages([...messages, newMessageRecieved])
             }
@@ -137,18 +148,18 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
     const typingHandler = (e) => {
         setNewMessage(e.target.value)
+
         if (!socketConnected) return
+
         if (!typing) {
             setTyping(true)
             socket.emit('typing', selectedChat._id)
         }
-
         let lastTypingTime = new Date().getTime()
-        let timerLength = 3000
+        var timerLength = 3000
         setTimeout(() => {
-            let timeNow = new Date().getTime()
-            let timeDiff = timeNow - lastTypingTime
-
+            var timeNow = new Date().getTime()
+            var timeDiff = timeNow - lastTypingTime
             if (timeDiff >= timerLength && typing) {
                 socket.emit('stop typing', selectedChat._id)
                 setTyping(false)
