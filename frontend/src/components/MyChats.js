@@ -123,6 +123,7 @@ const MyChats = ({ fetchAgain }) => {
                         <ChatLoading />
                     )}
                 </Box>
+                <Text>Made with 💖 by sid</Text>
             </Box>
         </>
     )

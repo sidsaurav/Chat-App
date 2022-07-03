@@ -5,6 +5,7 @@ import {
     Drawer,
     DrawerBody,
     DrawerContent,
+    DrawerFooter,
     DrawerHeader,
     DrawerOverlay,
     Input,
@@ -237,6 +238,11 @@ const SideDrawer = () => {
                         )}
                         {loadingChat && <Spinner ml='auto' d='flex' />}
                     </DrawerBody>
+                    <DrawerFooter display={'flex'} flexDirection={'column'}>
+                        <Text fontWeight={'bold'}>
+                            stay happy stay rabby :)
+                        </Text>
+                    </DrawerFooter>
                 </DrawerContent>
             </Drawer>
         </>
