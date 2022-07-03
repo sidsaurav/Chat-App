@@ -11,6 +11,7 @@ const ChatProvider = ({ children }) => {
     const [selectedChat, setSelectedChat] = useState()
     const [chats, setChats] = useState()
     const [notification, setNotification] = useState([])
+    const [online, setOnline] = useState(false)
 
     const history = useHistory()
 
@@ -34,6 +35,8 @@ const ChatProvider = ({ children }) => {
                 setChats,
                 notification,
                 setNotification,
+                online,
+                setOnline,
             }}
         >
             {children}

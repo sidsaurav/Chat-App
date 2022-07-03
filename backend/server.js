@@ -35,7 +35,7 @@ const server = app.listen(
 )
 
 const io = require('socket.io')(server, {
-    pingTimeout: 60000,
+    pingTimeout: 300000,
     cors: {
         origin: 'http://localhost:3000',
     },
@@ -64,10 +64,15 @@ io.on('connection', (socket) => {
         if (!chat.users) return console.log('chat.users not defined')
 
         chat.users.forEach((user) => {
-            if (user._id == newMessageRecieved.sender._id) return
-
-            console.log("I'm mapping to every user")
-            socket.in(user._id).emit('message recieved', newMessageRecieved)
+            if (user._id !== newMessageRecieved.sender._id) {
+                console.log("I'm mapping to every user")
+                socket.in(user._id).emit('message recieved', newMessageRecieved)
+            }
         })
+    })
+
+    socket.off('setup', () => {
+        console.log('USER DISCONNECTED')
+        socket.leave(userData._id)
     })
 })

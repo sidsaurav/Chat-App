@@ -92,7 +92,7 @@ const MyChats = ({ fetchAgain }) => {
                                     bg={
                                         selectedChat === chat
                                             ? '#38B2AC'
-                                            : 'E8E8E8'
+                                            : '#E8E8E8'
                                     }
                                     color={
                                         selectedChat === chat
@@ -108,6 +108,13 @@ const MyChats = ({ fetchAgain }) => {
                                         {!chat.isGroupChat
                                             ? getSender(loggedUser, chat.users)
                                             : chat.chatName}
+                                    </Text>
+                                    <Text fontSize={'xs'}>
+                                        <strong>
+                                            {chat.latestMessage.sender.email}{' '}
+                                            {': '}
+                                        </strong>
+                                        {chat.latestMessage.content}
                                     </Text>
                                 </Box>
                             ))}

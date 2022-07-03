@@ -29,6 +29,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         setSelectedChat,
         notification,
         setNotification,
+        online,
+        setOnline,
     } = ChatState()
     const [messages, setMessages] = useState([])
     const [loading, setLoading] = useState(false)
@@ -100,7 +102,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 )
 
                 socket.emit('new message', data)
-
+                setFetchAgain(!fetchAgain)
                 setMessages([...messages, data])
             } catch (err) {
                 toast({
@@ -138,11 +140,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             ) {
                 if (!notification.includes(newMessageRecieved)) {
                     setNotification([newMessageRecieved, ...notification])
-                    setFetchAgain(!fetchAgain)
                 }
             } else {
                 setMessages([...messages, newMessageRecieved])
             }
+            setFetchAgain(!fetchAgain)
         })
     })
 

@@ -153,12 +153,12 @@ const SideDrawer = () => {
                 </Text>
                 <div>
                     <Menu>
-                        <MenuButton p={1}>
+                        <MenuButton p={1} mr='15px'>
                             <NotificationBadge
                                 count={notification.length}
                                 effect={Effect.SCALE}
                             ></NotificationBadge>
-                            <i class='fa-solid fa-bell fa-xl'></i>
+                            <i class='fa-solid fa-bell fa-lg'></i>
                         </MenuButton>
                         <MenuList pl={2}>
                             {!notification.length
