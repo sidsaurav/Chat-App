@@ -35,7 +35,7 @@ const server = app.listen(
 )
 
 const io = require('socket.io')(server, {
-    pingTimeout: 300000,
+    pingTimeout: 60000,
     cors: {
         origin: 'http://localhost:3000',
     },
@@ -58,16 +58,14 @@ io.on('connection', (socket) => {
     socket.on('stop typing', (room) => socket.in(room).emit('stop typing'))
 
     socket.on('new message', (newMessageRecieved) => {
-        let chat = newMessageRecieved.chat
-        // console.log('new msg request', chat)
+        var chat = newMessageRecieved.chat
 
         if (!chat.users) return console.log('chat.users not defined')
 
         chat.users.forEach((user) => {
-            if (user._id !== newMessageRecieved.sender._id) {
-                console.log("I'm mapping to every user")
-                socket.in(user._id).emit('message recieved', newMessageRecieved)
-            }
+            if (user._id == newMessageRecieved.sender._id) return
+
+            socket.in(user._id).emit('message recieved', newMessageRecieved)
         })
     })
 
