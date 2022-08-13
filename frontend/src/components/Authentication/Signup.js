@@ -11,8 +11,10 @@ import {
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { ChatState } from '../../Context/ChatProvider'
 
 const Signup = () => {
+    const { setUser } = ChatState()
     const [name, setName] = useState()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
@@ -123,6 +125,7 @@ const Signup = () => {
                 position: 'bottom',
             })
             localStorage.setItem('userInfo', JSON.stringify(data))
+            setUser(data)
             setLoading(false)
             history.push('/chats')
         } catch (err) {
