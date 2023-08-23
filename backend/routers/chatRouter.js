@@ -1,11 +1,11 @@
 const express = require('express')
 const {
-    accessChat,
-    fetchChats,
-    createGroupChat,
-    renameGroup,
-    addToGroup,
-    removeFromGroup,
+  accessChat,
+  fetchChats,
+  createGroupChat,
+  renameGroup,
+  addToGroup,
+  removeFromGroup,
 } = require('../controllers/chatControllers')
 const { protect } = require('../middleware/authMiddleware')
 
