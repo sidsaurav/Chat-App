@@ -5,9 +5,11 @@ const app = express()
 const userRouter = require('./routers/userRouter')
 const chatRouter = require('./routers/chatRouter')
 const messageRouter = require('./routers/messageRouter')
+const cors = require('cors')
 
 dotenv.config()
 app.use(express.json())
+app.use(cors())
 
 connectDB()
 
