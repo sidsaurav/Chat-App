@@ -16,6 +16,11 @@ connectDB()
 const server = app.listen(process.env.PORT, () =>
     console.log('Server is running on port 5000')
 )
+app.use((req, res, next) => {
+    console.log(req.originalUrl)
+    console.log("Request Made")
+    next()
+})
 
 app.use('/api/user', userRouter)
 app.use('/api/chat', chatRouter)
