@@ -19,7 +19,7 @@ import io from 'socket.io-client'
 import Lottie from 'react-lottie'
 import animationData from '../animations/typing.json'
 
-const ENDPOINT = 'http://localhost:5000'
+const ENDPOINT = 'https://chat-backend-bmuc.onrender.com/'
 let socket, selectedChatCompare
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
@@ -185,23 +185,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     >
                         <IconButton
                             d={{ base: 'flex', md: 'none' }}
-                            icon={
-                                <i
-                                    class='fa fa-arrow-left'
-                                    aria-hidden='true'
-                                ></i>
-                            }
+                            icon={<i class='fa fa-arrow-left' aria-hidden='true'></i>}
                             onClick={() => setSelectedChat('')}
                         />
                         {!selectedChat.isGroupChat ? (
                             <>
                                 {getSender(user, selectedChat.users)}
-                                <ProfileModal
-                                    user={getSenderFull(
-                                        user,
-                                        selectedChat.users
-                                    )}
-                                />
+                                <ProfileModal user={getSenderFull(user, selectedChat.users)} />
                             </>
                         ) : (
                             <>
@@ -235,9 +225,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                             />
                         ) : (
                             <div className='messages'>
-                                <ScrollableChat
-                                    messages={messages}
-                                ></ScrollableChat>
+                                <ScrollableChat messages={messages}></ScrollableChat>
                             </div>
                         )}
                         <FormControl onKeyDown={sendMessage} isRequired mt={3}>
@@ -266,12 +254,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     </Box>
                 </>
             ) : (
-                <Box
-                    d='flex'
-                    alignItems='center'
-                    justifyContent='center'
-                    h='100%'
-                >
+                <Box d='flex' alignItems='center' justifyContent='center' h='100%'>
                     <Text fontSize='3xl' pb={3} fontFamily='Work sans'>
                         Click on a user to start chatting
                     </Text>
