@@ -32,8 +32,7 @@ app.get((req, res) => {
 const io = require('socket.io')(server, {
     pingTimeout: 60000,
     cors: {
-        origin: 'https://chitchatbay.netlify.app/',
-        methods: ['GET', 'POST', '*'],
+        origin: '*'
     },
 })
 
