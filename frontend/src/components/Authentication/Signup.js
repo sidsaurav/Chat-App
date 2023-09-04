@@ -107,7 +107,7 @@ const Signup = () => {
                 },
             }
             const { data } = await axios.post(
-                '/api/user',
+                'https://chat-backend-bmuc.onrender.com/api/user',
                 {
                     name,
                     email,

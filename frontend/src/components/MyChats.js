@@ -19,7 +19,7 @@ const MyChats = ({ fetchAgain }) => {
                 },
             }
 
-            const { data } = await axios.get('/api/chat', config)
+            const { data } = await axios.get('https://chat-backend-bmuc.onrender.com/api/chat', config)
             setChats(data)
         } catch (error) {
             toast({
@@ -113,9 +113,9 @@ const MyChats = ({ fetchAgain }) => {
                                         </b>
                                         {chat.latestMessage.content.length > 50
                                             ? chat.latestMessage.content.substring(
-                                                  0,
-                                                  51
-                                              ) + '...'
+                                                0,
+                                                51
+                                            ) + '...'
                                             : chat.latestMessage.content}
                                     </Text>
                                 )}

@@ -59,7 +59,7 @@ const GroupChatModal = ({ children }) => {
                 },
             }
             const { data } = await axios.get(
-                `/api/user?search=${search}`,
+                `https://chat-backend-bmuc.onrender.com/api/user?search=${search}`,
                 config
             )
             setLoading(false)
@@ -99,7 +99,7 @@ const GroupChatModal = ({ children }) => {
                 },
             }
             const { data } = await axios.post(
-                `/api/chat/group`,
+                `https://chat-backend-bmuc.onrender.com/api/chat/group`,
                 {
                     name: groupChatName,
                     users: JSON.stringify(selectedUsers.map((u) => u._id)),
