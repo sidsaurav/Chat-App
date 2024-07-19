@@ -6,6 +6,8 @@ const userRouter = require("./routers/userRouter");
 const chatRouter = require("./routers/chatRouter");
 const messageRouter = require("./routers/messageRouter");
 const cors = require("cors");
+const { createAdapter } = require("@socket.io/redis-adapter");
+const { createClient } = require("redis");
 
 dotenv.config();
 app.use(express.json());
